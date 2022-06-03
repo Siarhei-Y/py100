@@ -1,3 +1,4 @@
+from ntpath import join
 from tkinter import *
 from tkinter.tix import COLUMN
 from turtle import width
@@ -6,34 +7,28 @@ import random
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 #Password Generator Project
+def generate_password():
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
-letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+    nr_letters = random.randint(8, 10)
+    nr_symbols = random.randint(2, 4)
+    nr_numbers = random.randint(2, 4)
 
-nr_letters = random.randint(8, 10)
-nr_symbols = random.randint(2, 4)
-nr_numbers = random.randint(2, 4)
 
-password_list = letters + symbols + numbers
-letters = [random.choice(letters) for i in range(nr_letters)]
-# for char in range(nr_letters):
-#   password_list.append(random.choice(letters))
-symbols = [random.choice(symbols) for i in range(nr_symbols)]
-# for char in range(nr_symbols):
-#   password_list += random.choice(symbols)
-numbers = [random.choice(numbers) for i in range(nr_numbers)]
+    letters = [random.choice(letters) for i in range(nr_letters)]
+    symbols = [random.choice(symbols) for i in range(nr_symbols)]
+    numbers = [str(random.choice(numbers)) for i in range(nr_numbers)]
+    password_list = letters + symbols + numbers
+    random.shuffle(password_list)
 
-# for char in range(nr_numbers):
-#   password_list += random.choice(numbers)
+    password = ''.join(password_list)
 
-random.shuffle(password_list)
+    input_pass.insert(0,password)
 
-password = ""
-for char in password_list:
-  password += char
-
-print(f"Your password is: {password}")
+    # print(f"Your password is: {password}")
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
@@ -43,7 +38,7 @@ def save_data():
     password = input_pass.get()
 
     if len(website) != 0 or len(user) != 0 or len(password) != 0:
-        f = open("file.txt", "a")
+        f = open("./day-29/file.txt", "a")
         f.write(f"{website} | {user} | {password}\n")
         f.close()
         messagebox.showinfo(message='Credentials Saved')
@@ -91,7 +86,7 @@ input_pass.grid(column=1, row=3)
 
 
 #buttons
-generate_pass = Button(text='Generate Password',background="#FFFFFF")
+generate_pass = Button(text='Generate Password',background="#FFFFFF", command=generate_password)
 generate_pass.grid(column=2, row=3)
 
 add = Button(text='Add', background="#FFFFFF", width=36, command=save_data)
