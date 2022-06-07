@@ -1,9 +1,11 @@
+import email
 from ntpath import join
 from tkinter import *
 from tkinter.tix import COLUMN
 from turtle import width
 from tkinter import messagebox
 import random
+import json
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 #Password Generator Project
@@ -29,25 +31,27 @@ def generate_password():
     input_pass.insert(0,password)
 
     # print(f"Your password is: {password}")
-
 # ---------------------------- SAVE PASSWORD ------------------------------- #
-
 def save_data():
     website = input_website.get()
     user = input_user.get()
     password = input_pass.get()
+    new_data = {
+        website : {
+            'email': user,
+            'password': password,
+        }
+    }
 
-    if len(website) != 0 or len(user) != 0 or len(password) != 0:
-        f = open("./day-29/file.txt", "a")
-        f.write(f"{website} | {user} | {password}\n")
-        f.close()
-        messagebox.showinfo(message='Credentials Saved')
-
-        input_website.delete(0, END)
-        input_user.delete(0, END)
-        input_pass.delete(0, END)
+    if len(website) == 0 or len(user) == 0 or len(password) == 0:
+        messagebox.showinfo(title='Oops', message=r"Please make sure yuo haven't left any fields empty.")
     else:
-        messagebox.showinfo(message='Please Try again')
+        with open('day-29/data.json', 'r') as data_file:
+            # json.dump(new_data, data_file, indent=4)
+            data = json.load(data_file)
+            print(data)
+            input_website.delete(0, END)
+            input_pass.delete(0, END)
 
     
 
@@ -83,7 +87,6 @@ input_user.grid(column=1, row=2, columnspan=2)
 
 input_pass = Entry(width=20)
 input_pass.grid(column=1, row=3)
-
 
 #buttons
 generate_pass = Button(text='Generate Password',background="#FFFFFF", command=generate_password)
