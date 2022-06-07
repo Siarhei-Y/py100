@@ -47,6 +47,7 @@ def save_data():
         messagebox.showinfo(title='Oops', message=r"Please make sure yuo haven't left any fields empty.")
     else:
         with open('day-29/data.json', 'r') as data_file:
+            
             # json.dump(new_data, data_file, indent=4)
             data = json.load(data_file)
             print(data)
